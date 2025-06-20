@@ -1,13 +1,11 @@
-import { ScreenContent } from 'components/ScreenContent';
-import { StatusBar } from 'expo-status-bar';
-
 import './global.css';
+import { NavigationContainer } from '@react-navigation/native';
+import AppStack from 'pages/AppStack';
 
 export default function App() {
   return (
-    <>
-      <ScreenContent title="Home" path="App.tsx"></ScreenContent>
-      <StatusBar style="auto" />
-    </>
+    <NavigationContainer>
+      <AppStack/>
+    </NavigationContainer>
   );
 }

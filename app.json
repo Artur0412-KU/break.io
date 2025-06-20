@@ -3,36 +3,56 @@
     "name": "break.io",
     "slug": "break.io",
     "version": "1.0.0",
-
     "web": {
       "favicon": "./assets/favicon.png"
     },
-
     "experiments": {
       "tsconfigPaths": true
     },
-
-    "plugins": [],
-
+    "plugins": [
+      "expo-font", 
+      {
+        "fonts": [
+          "assets/fonts/Rubik-Italic-VariableFont_wght.ttf"
+        ]
+      }
+    ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-
     "userInterfaceStyle": "light",
-
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "fonts": ["./assets/fonts/Rubik-Italic-VariableFont_wght.ttf", "./assets/fonts/Rubik-VariableFont_wght.ttf"]
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "fonts": [
+        {
+          "fontFamily": "Rubbik",
+          "fontDefinitions": [
+            {
+              "path": "./assets/fonts/Rubik-Italic-VariableFont_wght.ttf",
+              "weight": 700,
+              "style": "italic"
+            },
+            {
+              "path": "./assets/fonts/Rubik-VariableFont_wght.ttf",
+              "weight": 700
+            }
+          ]
+        }
+      ]
     }
   }
 }
