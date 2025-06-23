@@ -1,11 +1,15 @@
 import './global.css';
-import { NavigationContainer } from '@react-navigation/native';
-import AppStack from 'pages/AppStack';
+import { NavigationContainer} from '@react-navigation/native';
+import AppStack from 'components/navigation/AppStack';
+import ThemeProvider from 'components/Theme/ThemeContext'; 
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <AppStack/>
-    </NavigationContainer>
+    <ThemeProvider>
+      <NavigationContainer>
+        <AppStack/>
+      </NavigationContainer>
+    </ThemeProvider>
+    
   );
 }
