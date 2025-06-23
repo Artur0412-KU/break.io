@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons';
+import LangaugePicker from 'components/Language/LangaugePicker';
 import { useTheme } from 'components/Theme/ThemeContext';
 import ThemeSwitcher from 'components/Theme/ThemeSwitcher';
 import React, { useState } from 'react'
@@ -27,6 +28,8 @@ export default function Settings() {
         <ThemeSwitcher onValueChange={toggleTheme} colorScheme={colorScheme}/>
         <Feather name='moon' size={24} color={colorByTheme[colorScheme].iconTheme}/>
       </View>
+
+      <LangaugePicker/>
       
     </SafeAreaView>
   )

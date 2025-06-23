@@ -1,4 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useTheme } from 'components/Theme/ThemeContext';
 import Home from 'pages/Home';
@@ -19,9 +21,10 @@ const colorByTheme: Record<'light' | 'dark', {
     }
 }
 
-export default function HomeStack() {
-  const {colorScheme} = useTheme()
- 
+const HomeStack = () => {
+  const { colorScheme } = useTheme();
+  const { t } = useTranslation();
+
   return (
     <Stack.Navigator 
       screenOptions={{
@@ -33,7 +36,9 @@ export default function HomeStack() {
         }
       }}
     >
-        <Stack.Screen component={Home} name='Home'/>
+      <Stack.Screen component={Home} name={t('home:title')}/>
     </Stack.Navigator>
-  )
-}
+  );
+};
+
+export default HomeStack;
