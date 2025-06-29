@@ -1,9 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 import i18n from 'locale/i18n';
 import moment from 'moment';
 import { Text, TouchableOpacity, View } from 'react-native'
 
 export default function LangaugePicker() {
+  const navigator = useNavigation<any>()
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
     AsyncStorage.setItem('langauge', lang)

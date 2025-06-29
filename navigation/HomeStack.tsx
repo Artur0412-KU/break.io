@@ -12,11 +12,11 @@ const colorByTheme: Record<'light' | 'dark', {
   titleColor?: string
 }> = {
     light: {
-      backgroundColor: 'white',
+      backgroundColor: '#FAFAFF',
       titleColor: 'black'
     },
     dark: {
-      backgroundColor: '#03002E',
+      backgroundColor: '#070417',
       titleColor: 'white'
     }
 }
@@ -36,7 +36,7 @@ const HomeStack = () => {
         }
       }}
     >
-      <Stack.Screen component={Home} name={t('home:title')}/>
+      <Stack.Screen component={Home} name="Home"/>
     </Stack.Navigator>
   );
 };
