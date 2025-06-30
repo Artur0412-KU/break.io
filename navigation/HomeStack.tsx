@@ -23,12 +23,11 @@ const colorByTheme: Record<'light' | 'dark', {
 
 const HomeStack = () => {
   const { colorScheme } = useTheme();
-  const { t } = useTranslation();
 
   return (
     <Stack.Navigator 
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         headerShadowVisible: false,
         headerStyle: { backgroundColor: colorByTheme[colorScheme].backgroundColor },
         headerTitleStyle: {

@@ -9,7 +9,12 @@
     "experiments": {
       "tsconfigPaths": true
     },
-    "plugins": [],
+    "plugins": [
+      "expo-calendar",
+      {
+        "calendarPermission": "The app needs to access your calendar."
+      }
+    ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
