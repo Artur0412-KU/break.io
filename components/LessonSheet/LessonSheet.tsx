@@ -38,13 +38,13 @@ export default function LessonSheet() {
       lessons.push(lesson)
       await AsyncStorage.setItem('lessons', JSON.stringify(lessons))
       setIsCompleted(false)
-      Alert.alert('Success', 'Lesson saved!')
+      Alert.alert('Success', 'Lesson added!')
       setTitle('')
       setTeacher('')
       setStartTime('')
       setEndTime('')
     } catch (e) {
-      Alert.alert('Error', 'Failed to save lesson.')
+      Alert.alert('Error', 'Failed to add lesson.')
     }
   }
 

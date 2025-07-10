@@ -8,10 +8,11 @@ type ThemeSwitcherProps = {
 
 export default function ThemeSwitcher({colorScheme, onValueChange}: ThemeSwitcherProps) {
   return (
-    <Switch trackColor={{false: '#767577', true: '#90D5FF'}}
+    <Switch trackColor={{false: '#767577', true: '#7c5fff'}}
       ios_backgroundColor="#3e3e3e"
       onValueChange={onValueChange}
       value={colorScheme === "dark"}
+      style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
     />
   )
 }

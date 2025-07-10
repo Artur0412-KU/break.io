@@ -46,6 +46,15 @@ export default function Home() {
     })
   }
 
+  // Delete a lesson by id
+  const handleDeleteLesson = (id: number | string) => {
+    setLessons(prevLessons => {
+      const updated = prevLessons.filter((lesson, idx) => (lesson.id ?? idx) !== id)
+      AsyncStorage.setItem('lessons', JSON.stringify(updated))
+      return updated
+    })
+  }
+
   const animateClear = async () => {
     Animated.sequence([
       Animated.spring(clearAnim, {
@@ -96,6 +105,7 @@ export default function Home() {
             start_time={item.start_time}
             end_time={item.end_time}
             onToggleComplete={handleToggleComplete}
+            onDelete={handleDeleteLesson}
           />
         )}
       />

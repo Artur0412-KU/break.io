@@ -1,6 +1,7 @@
 import { Text, View, TouchableOpacity, Animated } from 'react-native'
-import { useState, useRef } from 'react'
+import { useRef } from 'react'
 import { useTheme } from 'components/Theme/ThemeContext'
+import { Ionicons } from '@expo/vector-icons'
 
 type LessonProps = {
     id: number | string,
@@ -10,14 +11,14 @@ type LessonProps = {
     end_time?: string,
     isCompleted: boolean,
     onToggleComplete?: (id: number | string) => void,
+    onDelete?: (id: number | string) => void,
 }
 
-export default function Lesson({ id, title, start_time, isCompleted, onToggleComplete }: LessonProps) {
-  const [isActive, setIsActive] = useState(false)
+export default function Lesson({ id, title, start_time, isCompleted, onToggleComplete, onDelete }: LessonProps) {
   const scale = useRef(new Animated.Value(1)).current
 
   const handlePress = () => {
-    setIsActive((prev) => !prev)
+    if (onToggleComplete) onToggleComplete(id)
   }
 
   const handlePressIn = () => {
@@ -42,9 +43,9 @@ export default function Lesson({ id, title, start_time, isCompleted, onToggleCom
     <Animated.View
       style={{
         transform: [{ scale }],
-        backgroundColor: isActive ? '#22c55e' : '#7c5fff',
+        backgroundColor: isCompleted ? '#22c55e' : '#7c5fff',
       }}
-      className="mb-4 w-full rounded-2xl min-h-[70px] flex-row items-center px-10 py-4"
+      className="mb-4 w-full rounded-2xl min-h-[70px] flex-row items-center px-4 py-4"
     >
       <TouchableOpacity
         onPress={handlePress}
@@ -56,6 +57,13 @@ export default function Lesson({ id, title, start_time, isCompleted, onToggleCom
       >
         <Text className="text-white font-bold text-lg mb-1">{title}</Text>
         <Text className="text-white text-[15px] opacity-85">{start_time}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => onDelete && onDelete(id)}
+        className="ml-4 p-2 rounded-full"
+        activeOpacity={0.7}
+      >
+        <Ionicons name="trash" size={22} color="#fff" />
       </TouchableOpacity>
     </Animated.View>
   )
