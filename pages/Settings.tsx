@@ -1,5 +1,4 @@
 import { Feather } from '@expo/vector-icons';
-import LangaugePicker from 'components/Language/LangaugePicker';
 import { useTheme } from 'components/Theme/ThemeContext';
 import ThemeSwitcher from 'components/Theme/ThemeSwitcher';
 import { SafeAreaView, View } from 'react-native'

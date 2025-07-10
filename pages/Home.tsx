@@ -1,4 +1,4 @@
-import { FlatList, SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, SafeAreaView, Text, TouchableOpacity, View, Animated } from 'react-native'
 import { useTheme } from 'components/Theme/ThemeContext'
 import { Ionicons } from '@expo/vector-icons'
 import RBSheet from 'react-native-raw-bottom-sheet'
@@ -12,6 +12,7 @@ export default function Home() {
   const { colorScheme } = useTheme()
   const [lessons, setLessons] = useState<any[]>([])
   const [sheetOpen, setSheetOpen] = useState(false)
+  const clearAnim = useRef(new Animated.Value(1)).current
 
   const handleOpenModal = () => {
     setSheetOpen(true)
@@ -28,6 +29,42 @@ export default function Home() {
     }
   }
 
+  // Toggle isCompleted for a lesson
+  const handleToggleComplete = (id: number | string) => {
+    setLessons(prevLessons => {
+      const updated = prevLessons.map((lesson, idx) => {
+        // Use idx as id if no unique id is present
+        const lessonId = lesson.id ?? idx
+        if (lessonId === id) {
+          return { ...lesson, isCompleted: !lesson.isCompleted }
+        }
+        return lesson
+      })
+      console.log('Updated lessons:', updated)
+      AsyncStorage.setItem('lessons', JSON.stringify(updated))
+      return updated
+    })
+  }
+
+  const animateClear = async () => {
+    Animated.sequence([
+      Animated.spring(clearAnim, {
+        toValue: 0.85,
+        useNativeDriver: true,
+        speed: 30,
+        bounciness: 8,
+      }),
+      Animated.spring(clearAnim, {
+        toValue: 1,
+        useNativeDriver: true,
+        speed: 20,
+        bounciness: 8,
+      }),
+    ]).start()
+    await AsyncStorage.removeItem('lessons')
+    setLessons([])
+  }
+
   useEffect(() => {
     loadLessons()
   }, [])
@@ -41,17 +78,25 @@ export default function Home() {
     <SafeAreaView className={` h-full w-full ${colorScheme === 'dark' ? 'bg-[#070417]' : 'bg-[#FAFAFF]'}`}>
       <View className='p-5 flex flex-row justify-between items-center'>
         <Text className={`text-3xl font-bold ${colorScheme === 'dark' ? 'text-white' : 'text-black'}`}>Break.io</Text>
-        <TouchableOpacity className='bg-blue-500 p-2 rounded-full' onPress={handleOpenModal}>
+        <TouchableOpacity className='bg-[#7c5fff] p-2 rounded-full' onPress={handleOpenModal}>
           <Ionicons name='add' size={24} color={'white'} />
         </TouchableOpacity>
       </View>
       <FlatList
         data={lessons}
-        keyExtractor={(_, idx) => idx.toString()}
+        keyExtractor={(_, idx) => (lessons[idx].id ?? idx).toString()}
         contentContainerStyle={{ flexGrow: 1, padding: 16 }}
         ListEmptyComponent={<Text className='text-center text-gray-400 mt-10'>No lessons yet.</Text>}
-        renderItem={({ item }) => (
-          <Lesson title={item.title} teacher={item.teacher} start_time={item.start_time} end_time={item.end_time} />
+        renderItem={({ item, index }) => (
+          <Lesson
+            id={item.id ?? index}
+            isCompleted={item.isCompleted ?? false}
+            title={item.title}
+            teacher={item.teacher}
+            start_time={item.start_time}
+            end_time={item.end_time}
+            onToggleComplete={handleToggleComplete}
+          />
         )}
       />
       <RBSheet
@@ -61,6 +106,8 @@ export default function Home() {
           container: {
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
+            backgroundColor: colorScheme === 'dark' ? '#18122B' : '#FAFAFF',
+            width: '100%'
           },
         }}
         onClose={() => setSheetOpen(false)}
@@ -68,6 +115,20 @@ export default function Home() {
       >
         <LessonSheet />
       </RBSheet>
+      <Animated.View
+        style={{
+          transform: [{ scale: clearAnim }],
+          opacity: clearAnim,
+        }}
+      >
+        <TouchableOpacity
+          className='mt-4 mb-8 self-center px-6 py-3 rounded-xl'
+          activeOpacity={0.8}
+          onPress={animateClear}
+        >
+          <Text className='text-red-500 font-medium text-lg'>Clear lessons</Text>
+        </TouchableOpacity>
+      </Animated.View>
     </SafeAreaView>
   )
 }
