@@ -54,35 +54,33 @@ export default function LessonSheet() {
     <View className={`px-5 py-7 rounded-2xl ${isDark ? 'bg-[#18122B]' : 'bg-white'}`}> 
       <Text className={`mb-2 text-2xl font-bold ${isDark ? 'text-white' : 'text-black'}`}>Add Lesson:</Text>
       <TextInput
-        className={`border px-2 py-2 mb-3 text-lg rounded-xl ${isDark ? 'bg-[#232042] border-[#393053] text-white' : 'bg-white border-gray-300 text-black'}`}
+        className={`border px-2 py-2 mb-3 text-base rounded-xl ${isDark ? 'bg-[#232042] border-[#393053] text-white' : 'bg-white border-gray-300 text-black'}`}
         placeholder='Title'
         placeholderTextColor={isDark ? '#aaa' : '#888'}
         value={title}
         onChangeText={setTitle}
       />
       <TextInput
-        className={`border px-2 py-2 mb-3 text-lg rounded-xl ${isDark ? 'bg-[#232042] border-[#393053] text-white' : 'bg-white border-gray-300 text-black'}`}
+        className={`border px-2 py-2 mb-3 text-base rounded-xl ${isDark ? 'bg-[#232042] border-[#393053] text-white' : 'bg-white border-gray-300 text-black'}`}
         placeholder='Teacher'
         placeholderTextColor={isDark ? '#aaa' : '#888'}
         value={teacher}
         onChangeText={setTeacher}
       />
       <TextInput
-        className={`border px-2 py-2 mb-3 text-lg rounded-xl ${isDark ? 'bg-[#232042] border-[#393053] text-white' : 'bg-white border-gray-300 text-black'}`}
+        className={`border px-2 py-2 mb-3 text-base rounded-xl ${isDark ? 'bg-[#232042] border-[#393053] text-white' : 'bg-white border-gray-300 text-black'}`}
         placeholder='Start Time (HH:MM)'
         placeholderTextColor={isDark ? '#aaa' : '#888'}
         value={startTime}
         onChangeText={text => setStartTime(text.replace(/[^0-9:]/g, ''))}
-        keyboardType='numeric'
         maxLength={5}
       />
       <TextInput
-        className={`border px-2 py-2 mb-3 text-lg rounded-xl ${isDark ? 'bg-[#232042] border-[#393053] text-white' : 'bg-white border-gray-300 text-black'}`}
+        className={`border px-2 py-2 mb-3 text-base rounded-xl ${isDark ? 'bg-[#232042] border-[#393053] text-white' : 'bg-white border-gray-300 text-black'}`}
         placeholder='End Time (HH:MM)'
         placeholderTextColor={isDark ? '#aaa' : '#888'}
         value={endTime}
         onChangeText={text => setEndTime(text.replace(/[^0-9:]/g, ''))}
-        keyboardType='numeric'
         maxLength={5}
       />
       <TouchableOpacity className={`py-4 rounded-xl mt-4 ${isDark ? 'bg-[#7c5fff]' : 'bg-blue-500'}`} onPress={saveLesson}>
