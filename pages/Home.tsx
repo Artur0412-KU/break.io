@@ -113,8 +113,8 @@ export default function Home() {
         ref={rbsheet}
         height={400}
         customStyles={{
-          container: {
-            borderTopLeftRadius: 20,
+        container: {
+          borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
             backgroundColor: colorScheme === 'dark' ? '#18122B' : '#FAFAFF',
             width: '100%'

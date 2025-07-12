@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useTheme } from 'components/Theme/ThemeContext'
+import NotificationService from '../../services/NotificationService'
 
 function isValidTime(time: string) {
   // Matches HH:MM, 24-hour format
@@ -15,6 +16,11 @@ export default function LessonSheet() {
   const [endTime, setEndTime] = useState('')
   const [isCompleted, setIsCompleted] = useState(false)
   const { colorScheme } = useTheme()
+
+  // Request notification permissions on mount
+  useEffect(() => {
+    NotificationService.requestPermissions()
+  }, [])
 
   const saveLesson = async () => {
     if (!title.trim() || !teacher.trim() || !startTime.trim() || !endTime.trim()) {
@@ -37,8 +43,17 @@ export default function LessonSheet() {
       const lessons = existing ? JSON.parse(existing) : []
       lessons.push(lesson)
       await AsyncStorage.setItem('lessons', JSON.stringify(lessons))
+      
+      // Schedule notification for the new lesson
+      await NotificationService.scheduleLessonReminder({
+        id: lessons.length - 1, // Use array index as ID
+        title: lesson.title,
+        teacher: lesson.teacher,
+        start_time: lesson.start_time,
+      })
+      
       setIsCompleted(false)
-      Alert.alert('Success', 'Lesson added!')
+      Alert.alert('Success', 'Lesson added with reminder!')
       setTitle('')
       setTeacher('')
       setStartTime('')
@@ -83,7 +98,7 @@ export default function LessonSheet() {
         onChangeText={text => setEndTime(text.replace(/[^0-9:]/g, ''))}
         maxLength={5}
       />
-      <TouchableOpacity className={`py-4 rounded-xl mt-4 ${isDark ? 'bg-[#7c5fff]' : 'bg-blue-500'}`} onPress={saveLesson}>
+      <TouchableOpacity className={`py-4 rounded-xl mt-4 bg-[#7c5fff]`} onPress={saveLesson}>
         <Text className='text-center text-white font-bold text-lg'>Add Lesson</Text>
       </TouchableOpacity>
     </View>
