@@ -1,5 +1,5 @@
-import { PieChart } from 'react-native-svg-charts';
-import { View, Text, ScrollView } from 'react-native';
+import { PieChart as ChartKitPieChart } from 'react-native-chart-kit';
+import { Dimensions, View, Text, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
@@ -8,6 +8,8 @@ import { useTheme } from 'components/Theme/ThemeContext';
 const PIE_COLORS = [
   '#7c5fff', '#22c55e', '#f59e42', '#ef4444', '#3bb4e7', '#ff5fd2', '#d946ef', '#6366f1', '#fbbf24', '#10b981'
 ];
+
+const screenWidth = Dimensions.get('window').width;
 
 export default function Statistics() {
   const [stats, setStats] = useState({ completed: 0, uncompleted: 0, all: 0 });
@@ -24,7 +26,8 @@ export default function Statistics() {
           typeof l.title === 'string' &&
           typeof l.teacher === 'string' &&
           typeof l.start_time === 'string' &&
-          typeof l.end_time === 'string'
+          typeof l.end_time === 'string' &&
+          typeof l.isCompleted === 'boolean'
       );
       const completed = lessons.filter((l: any) => l.isCompleted).length;
       const uncompleted = lessons.filter((l: any) => !l.isCompleted).length;
@@ -32,7 +35,7 @@ export default function Statistics() {
       // Teacher chart
       const teacherMap: { [teacher: string]: number } = {};
       lessons.forEach((l: any) => {
-        if (typeof l.teacher === 'string' && l.teacher.trim()) {
+        if (typeof l.teacher === 'string' && l.teacher.trim() && typeof l.isCompleted === 'boolean') {
           teacherMap[l.teacher] = (teacherMap[l.teacher] || 0) + 1;
         }
       });
@@ -50,16 +53,14 @@ export default function Statistics() {
   // Sort teachers by lesson count descending
   const sortedTeachers = Object.entries(teacherStats).sort((a, b) => b[1] - a[1]);
 
-  // Prepare data for the pie chart
-  const pieData = sortedTeachers
-    .filter(([teacher, count]) => typeof teacher === 'string' && typeof count === 'number')
-    .map(([teacher, count], idx) => ({
-      value: count,
-      svg: { fill: PIE_COLORS[idx % PIE_COLORS.length] },
-      key: `pie-${teacher}`,
-      teacher,
-      count,
-    }));
+  // Prepare data for react-native-chart-kit PieChart
+  const pieData = sortedTeachers.map(([teacher, count], idx) => ({
+    name: String(teacher),
+    population: count,
+    color: PIE_COLORS[idx % PIE_COLORS.length],
+    legendFontColor: isDark ? '#fff' : '#222',
+    legendFontSize: 15,
+  }));
 
   return (
     <ScrollView>
@@ -88,23 +89,23 @@ export default function Statistics() {
       <Text className={`text-2xl font-bold mt-8 mb-2 ml-4 ${isDark ? 'text-white' : 'text-black'}`}>Уроки за викладачами:</Text>
       {pieData.length > 0 ? (
         <View className="px-4 mb-8 items-center justify-center">
-          <PieChart
-            style={{ height: 220, width: 220, alignSelf: 'center' }}
+          <ChartKitPieChart
             data={pieData}
-            padAngle={0.02}
-            innerRadius={30}
-            outerRadius={100}
+            width={screenWidth - 32}
+            height={220}
+            chartConfig={{
+              color: (opacity = 1) => isDark ? `rgba(255,255,255,${opacity})` : `rgba(0,0,0,${opacity})`,
+              labelColor: (opacity = 1) => isDark ? `rgba(255,255,255,${opacity})` : `rgba(0,0,0,${opacity})`,
+              backgroundColor: 'transparent',
+              backgroundGradientFrom: 'transparent',
+              backgroundGradientTo: 'transparent',
+              decimalPlaces: 0,
+            }}
+            accessor="population"
+            backgroundColor="transparent"
+            paddingLeft="15"
+            absolute
           />
-          {/* Legend */}
-          <View className="mt-6 w-full items-center">
-            {pieData.map((slice, idx) => (
-              <View key={slice.key} className="flex flex-row items-center mb-1">
-                <View style={{ width: 16, height: 16, borderRadius: 8, backgroundColor: PIE_COLORS[idx % PIE_COLORS.length], marginRight: 8 }} />
-                <Text className={`text-base font-medium ${isDark ? 'text-white' : 'text-black'}`}>{slice.teacher}</Text>
-                <Text className="ml-2 text-base font-bold text-blue-500">{slice.count}</Text>
-              </View>
-            ))}
-          </View>
         </View>
       ) : (
         <Text className={`ml-4 mt-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Немає даних про викладачів.</Text>
