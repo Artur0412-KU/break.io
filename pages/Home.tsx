@@ -24,6 +24,7 @@ export default function Home() {
     try {
       const stored = await AsyncStorage.getItem('lessons')
       setLessons(stored ? JSON.parse(stored) : [])
+      console.log(stored)
     } catch {
       setLessons([])
     }

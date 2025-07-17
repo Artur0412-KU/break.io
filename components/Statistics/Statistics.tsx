@@ -19,14 +19,20 @@ export default function Statistics() {
   const loadStats = async () => {
     try {
       const stored = await AsyncStorage.getItem('lessons');
-      const lessons = stored ? JSON.parse(stored) : [];
+      const lessons = (stored ? JSON.parse(stored) : []).filter(
+        (l: any) =>
+          typeof l.title === 'string' &&
+          typeof l.teacher === 'string' &&
+          typeof l.start_time === 'string' &&
+          typeof l.end_time === 'string'
+      );
       const completed = lessons.filter((l: any) => l.isCompleted).length;
       const uncompleted = lessons.filter((l: any) => !l.isCompleted).length;
       setStats({ completed, uncompleted, all: lessons.length });
       // Teacher chart
       const teacherMap: { [teacher: string]: number } = {};
       lessons.forEach((l: any) => {
-        if (l.teacher && l.teacher.trim()) {
+        if (typeof l.teacher === 'string' && l.teacher.trim()) {
           teacherMap[l.teacher] = (teacherMap[l.teacher] || 0) + 1;
         }
       });
@@ -45,13 +51,15 @@ export default function Statistics() {
   const sortedTeachers = Object.entries(teacherStats).sort((a, b) => b[1] - a[1]);
 
   // Prepare data for the pie chart
-  const pieData = sortedTeachers.map(([teacher, count], idx) => ({
-    value: count,
-    svg: { fill: PIE_COLORS[idx % PIE_COLORS.length] },
-    key: `pie-${teacher}`,
-    teacher,
-    count,
-  }));
+  const pieData = sortedTeachers
+    .filter(([teacher, count]) => typeof teacher === 'string' && typeof count === 'number')
+    .map(([teacher, count], idx) => ({
+      value: count,
+      svg: { fill: PIE_COLORS[idx % PIE_COLORS.length] },
+      key: `pie-${teacher}`,
+      teacher,
+      count,
+    }));
 
   return (
     <ScrollView>
