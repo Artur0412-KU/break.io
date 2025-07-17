@@ -24,11 +24,11 @@ export default function LessonSheet() {
 
   const saveLesson = async () => {
     if (!title.trim() || !teacher.trim() || !startTime.trim() || !endTime.trim()) {
-      Alert.alert('Validation', 'Please fill in all fields.')
+      Alert.alert('Перевірка', 'Заповніть всі поля.')
       return
     }
     if (!isValidTime(startTime) || !isValidTime(endTime)) {
-      Alert.alert('Validation', 'Please enter time in HH:MM format (24-hour).')
+      Alert.alert('Перевірка', 'Введіть час у форматі ГГ:ХХ (24-годинний).')
       return
     }
     const lesson = {
@@ -53,13 +53,13 @@ export default function LessonSheet() {
       })
       
       setIsCompleted(false)
-      Alert.alert('Success', 'Lesson added with reminder!')
+      Alert.alert('Успіх', 'Урок додано з нагадуванням!')
       setTitle('')
       setTeacher('')
       setStartTime('')
       setEndTime('')
     } catch (e) {
-      Alert.alert('Error', 'Failed to add lesson.')
+      Alert.alert('Помилка', 'Не вдалося додати урок.')
     }
   }
 
@@ -67,24 +67,24 @@ export default function LessonSheet() {
 
   return (
     <View className={`px-5 py-7 rounded-2xl ${isDark ? 'bg-[#18122B]' : 'bg-white'}`}> 
-      <Text className={`mb-2 text-2xl font-bold ${isDark ? 'text-white' : 'text-black'}`}>Add Lesson:</Text>
+      <Text className={`mb-2 text-2xl font-bold ${isDark ? 'text-white' : 'text-black'}`}>Додати урок:</Text>
       <TextInput
         className={`border px-2 py-2 mb-3 text-base rounded-xl ${isDark ? 'bg-[#232042] border-[#393053] text-white' : 'bg-white border-gray-300 text-black'}`}
-        placeholder='Title'
+        placeholder='Назва'
         placeholderTextColor={isDark ? '#aaa' : '#888'}
         value={title}
         onChangeText={setTitle}
       />
       <TextInput
         className={`border px-2 py-2 mb-3 text-base rounded-xl ${isDark ? 'bg-[#232042] border-[#393053] text-white' : 'bg-white border-gray-300 text-black'}`}
-        placeholder='Teacher'
+        placeholder='Викладач'
         placeholderTextColor={isDark ? '#aaa' : '#888'}
         value={teacher}
         onChangeText={setTeacher}
       />
       <TextInput
         className={`border px-2 py-2 mb-3 text-base rounded-xl ${isDark ? 'bg-[#232042] border-[#393053] text-white' : 'bg-white border-gray-300 text-black'}`}
-        placeholder='Start Time (HH:MM)'
+        placeholder='Початок (ГГ:ХХ)'
         placeholderTextColor={isDark ? '#aaa' : '#888'}
         value={startTime}
         onChangeText={text => setStartTime(text.replace(/[^0-9:]/g, ''))}
@@ -92,14 +92,14 @@ export default function LessonSheet() {
       />
       <TextInput
         className={`border px-2 py-2 mb-3 text-base rounded-xl ${isDark ? 'bg-[#232042] border-[#393053] text-white' : 'bg-white border-gray-300 text-black'}`}
-        placeholder='End Time (HH:MM)'
+        placeholder='Кінець (ГГ:ХХ)'
         placeholderTextColor={isDark ? '#aaa' : '#888'}
         value={endTime}
         onChangeText={text => setEndTime(text.replace(/[^0-9:]/g, ''))}
         maxLength={5}
       />
       <TouchableOpacity className={`py-4 rounded-xl mt-4 bg-[#7c5fff]`} onPress={saveLesson}>
-        <Text className='text-center text-white font-bold text-lg'>Add Lesson</Text>
+        <Text className='text-center text-white font-bold text-lg'>Додати урок</Text>
       </TouchableOpacity>
     </View>
   )

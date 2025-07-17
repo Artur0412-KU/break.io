@@ -23,7 +23,7 @@ export default function Settings() {
     <SafeAreaView className={`h-full w-full ${isDark ? 'bg-[#070417]' : 'bg-[#FAFAFF]'}`}>
       {/* Theme Switcher Row */}
       <View className="flex flex-row items-center px-4 pt-4 pb-2">
-        <Text className={`text-lg font-bold mr-2 ${isDark ? 'text-white' : 'text-black'}`}>Theme</Text>
+        <Text className={`text-lg font-bold mr-2 ${isDark ? 'text-white' : 'text-black'}`}>Тема</Text>
         <View className="flex-1" />
         <ThemeSwitcher onValueChange={toggleTheme} colorScheme={colorScheme} />
       </View>

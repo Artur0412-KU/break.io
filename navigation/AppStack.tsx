@@ -34,10 +34,10 @@ export default function AppStack() {
         <Tab.Screen component={HomeStack}  
         name='HomeStack'
         options={{
-            tabBarLabel:  "Home",
+            tabBarLabel:  "Головна",
             tabBarIcon: () => <Feather name="home" size={24} color={colorByTheme[colorScheme].tabBarTintColor} />,
         }}/>
-        <Tab.Screen component={Settings} name="Settings"
+        <Tab.Screen component={Settings} name="Налаштування"
         options={{
             tabBarIcon: () => <Feather name="settings" size={24} color={colorByTheme[colorScheme].tabBarTintColor} />,
         }}/>

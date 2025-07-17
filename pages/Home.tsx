@@ -95,7 +95,7 @@ export default function Home() {
         data={lessons}
         keyExtractor={(_, idx) => (lessons[idx].id ?? idx).toString()}
         contentContainerStyle={{ flexGrow: 1, padding: 16 }}
-        ListEmptyComponent={<Text className='text-center text-gray-400 mt-10'>No lessons yet.</Text>}
+        ListEmptyComponent={<Text className='text-center text-gray-400 mt-10'>Ще немає уроків.</Text>}
         renderItem={({ item, index }) => (
           <Lesson
             id={item.id ?? index}
@@ -136,7 +136,7 @@ export default function Home() {
           activeOpacity={0.8}
           onPress={animateClear}
         >
-          <Text className='text-red-500 font-medium text-lg'>Clear lessons</Text>
+          <Text className='text-red-500 font-medium text-lg'>Очистити уроки</Text>
         </TouchableOpacity>
       </Animated.View>
     </SafeAreaView>

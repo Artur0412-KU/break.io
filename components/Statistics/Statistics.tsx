@@ -55,29 +55,29 @@ export default function Statistics() {
 
   return (
     <ScrollView>
-      <Text className={`text-3xl font-extrabold mt-6 mb-4 ml-4 ${isDark ? 'text-white' : 'text-black'}`}>Statistics:</Text>
+      <Text className={`text-3xl font-extrabold mt-6 mb-4 ml-4 ${isDark ? 'text-white' : 'text-black'}`}>Статистика:</Text>
       <View className="flex flex-col gap-2">
         {/* Completed */}
         <View className="flex flex-row justify-between items-center px-4 py-2">
-          <Text className={`text-lg font-bold ${isDark ? 'text-white' : 'text-black'}`}>Completed</Text>
+          <Text className={`text-lg font-bold ${isDark ? 'text-white' : 'text-black'}`}>Завершено</Text>
           <Text className="text-lg font-bold text-blue-500">{stats.completed}</Text>
         </View>
         <View className="border-b border-gray-200 mx-2" />
         {/* Uncompleted */}
         <View className="flex flex-row justify-between items-center px-4 py-2">
-          <Text className={`text-lg font-bold ${isDark ? 'text-white' : 'text-black'}`}>Uncompleted</Text>
+          <Text className={`text-lg font-bold ${isDark ? 'text-white' : 'text-black'}`}>Не завершено</Text>
           <Text className="text-lg font-bold text-red-500">{stats.uncompleted}</Text>
         </View>
         <View className="border-b border-gray-200 mx-2" />
         {/* All */}
         <View className="flex flex-row justify-between items-center px-4 py-2">
-          <Text className={`text-lg font-bold ${isDark ? 'text-white' : 'text-black'}`}>All</Text>
+          <Text className={`text-lg font-bold ${isDark ? 'text-white' : 'text-black'}`}>Всього</Text>
           <Text className="text-lg font-bold" style={{ color: '#d946ef' }}>{stats.all}</Text>
         </View>
         <View className="border-b border-gray-200 mx-2" />
       </View>
       {/* Teacher Pie Chart */}
-      <Text className={`text-2xl font-bold mt-8 mb-2 ml-4 ${isDark ? 'text-white' : 'text-black'}`}>Lessons by Teacher:</Text>
+      <Text className={`text-2xl font-bold mt-8 mb-2 ml-4 ${isDark ? 'text-white' : 'text-black'}`}>Уроки за викладачами:</Text>
       {pieData.length > 0 ? (
         <View className="px-4 mb-8 items-center justify-center">
           <PieChart
@@ -99,7 +99,7 @@ export default function Statistics() {
           </View>
         </View>
       ) : (
-        <Text className={`ml-4 mt-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>No teacher data.</Text>
+        <Text className={`ml-4 mt-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Немає даних про викладачів.</Text>
       )}
     </ScrollView>
   );
